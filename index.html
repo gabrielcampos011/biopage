@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Link in Bio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2525f4",
+              "grad-start": "#4c68d7",
+              "grad-end": "#8a3ab9",
+            },
+            fontFamily: {
+              display: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .noise-texture {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .noise-texture::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTtqlNFVQHcrzGXSfxUhACo stonedvgfd50dzMD24sJyNvpCUcovGIGA_FFBYWggAIbaJr2zuJADsodyKOstMRSAigFEYqS0flotO41nH0HIvep3AxDN47dOyeNzvWoG9DSoAxOHlvTTaAUctTeoeBleAXhMAKDRgjdMoM_SokfgFIeiCw6awNGs1AQZaOFPxgUEZgbcuHQnRmyvMSoNa45LOc2FKCHAoHDmgnIAo0yo5qHGbIuNH4YsmGoFBGa2IMsuOTgIgHK5s0LoEgOCs7sFAfc/QRJU90vQZ4EgCCPQiYdz8GhasngSxHaSg_iA4wPABCDE0nE63iAlBY5yUggGs5qSwsxcLy36kRu5X2Liaq1ALaAUd+W13wAOzRhNgCxVpN1Bko0rkBUYOg1gF4gtgG4px4EfVAcAGAE9Oem1crQgtr+s5eY5A8eNmDbOykApZNWoAbNggHIBJETXmkUDupAHA5wgAGGzlRYyFRsDlJoEgCCAy3YDDdj1gD07daBUrig4ffbBI_HoG5fC5_tQF_AFAxT0ZUqKmA1AGisG9pAaiZXiLdN4F8UAGZAyWYVlSQL2unGBsoGQCfe/UPHLzLvsOQeGcF2PDRAGSdxP_bSI/GJJzGagG6WJCSLpkT4VOZakltPTN75DRWcAFgfZBAS9ycpwH4YhCEZnOkEyB2U2hBLGyQ_I_iAXgN4sJRUN40fBOLiAgBPoG8G2gsdCJDdw08Ai8nIQb4uAiAABDRMbZH_EQ2A8gJxwOBBLAeaClwyB4ggF8tKiKMgBjE0yAwfABy2gHuxhFSliQAo5BsKwDUF3A3b0BENEiMgByPBPEEwAc40iMXoA3a3MAkx0I0A3CGgBrhQ/0BQRTECb98BCKA9KDC8BfABtAAIDYiEAYssGnJAEi9pXVAB3kBgnAQPACH9wEaE4gIAo7mgGRYOEIAoZJngA4ANwBODEA2gsQQIyoCg2ChIgA_rBCFA3MC_eHABB8G5QDqPAETAO0MB3A14gIAQfKDAAmdG+0I/jwAl1gA4AORskAYotG2iQLIEqQAXoHUAOCv0Ia0AxMA4A8xwP0BwAe+ERitAXMAfgHwoRy8PwQwALA9LAgQAUDsAXsOkBFKA5MAAvsLyf8GgMskCIAo6AACQjS3wA4A3iFfJgAEd3oGc+9gBMAkIIsAAgKkBeoA3CBgGgsA/gI08gBoAAAAASUVORK5CYII=');
+        z-index: -1;
+        opacity: 0.1;
+      }
+      .glass-card {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      /* Custom scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-grad-end">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

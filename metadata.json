@@ -1,0 +1,5 @@
+{
+  "name": "LinkBio Builder",
+  "description": "A fully functional, editable Link-in-Bio application featuring glassmorphism design, user authentication, and a dynamic content editor.",
+  "requestFramePermissions": []
+}
