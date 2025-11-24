@@ -1,6 +1,8 @@
 <div align="center">
-<img width="1200" height="475" alt="App Biopage" src="[https://ibb.co/fVcgWPYj" />
+<img width="1920" height="1347" alt="Biopage home v2" src="https://github.com/user-attachments/assets/a147fd99-7714-4424-87be-2a0c8040b23a" />
 </div>
+![Uploading Biopage home v2.png…]()
+
 
 🔗 BioPage: Seu Link Único e Personalizado (Estilo Linktree)
 
