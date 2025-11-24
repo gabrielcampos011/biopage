@@ -25,13 +25,18 @@ export const RegisterView: React.FC = () => {
         setError(null);
 
         try {
-            const { error } = await supabase.auth.signUp({
+            const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
             });
 
             if (error) throw error;
-            setSuccess(true);
+
+            if (data.session) {
+                navigate('/admin');
+            } else {
+                setSuccess(true);
+            }
         } catch (err: any) {
             setError(err.message || 'Falha ao cadastrar');
         } finally {
