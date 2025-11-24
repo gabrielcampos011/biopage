@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from '../components/Input';
-import { Lock, ArrowLeft, Mail, Loader2 } from 'lucide-react';
+import { Lock, ArrowLeft, Mail, Loader2, LogIn } from 'lucide-react';
 import { supabase } from '../src/lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -32,18 +32,18 @@ export const LoginView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-8">
       <div className="bg-radial-dark"></div>
 
-      <div className="w-full max-w-md bg-gray-800/80 backdrop-blur-xl border border-white/5 shadow-2xl shadow-black/50 rounded-3xl p-8 flex flex-col gap-6 relative z-10">
+      <div className="w-full max-w-md bg-gray-800/80 backdrop-blur-xl border border-white/5 shadow-2xl shadow-black/50 rounded-3xl p-6 sm:p-8 flex flex-col gap-6 relative z-10">
         <div className="flex items-center justify-between">
           <Link to="/" className="text-white/50 hover:text-white transition-colors">
             <ArrowLeft size={24} />
           </Link>
           <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10">
-            <Lock size={24} />
+            <LogIn size={24} />
           </div>
-          <div className="w-6" /> {/* Spacer for centering */}
+          <div className="w-6" />
         </div>
 
         <div className="text-center">

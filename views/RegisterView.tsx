@@ -65,9 +65,9 @@ export const RegisterView: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center p-4">
+        <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-8">
             <div className="bg-radial-dark"></div>
-            <div className="w-full max-w-md bg-gray-800/80 backdrop-blur-xl border border-white/5 shadow-2xl shadow-black/50 rounded-3xl p-8 flex flex-col gap-6 relative z-10">
+            <div className="w-full max-w-md bg-gray-800/80 backdrop-blur-xl border border-white/5 shadow-2xl shadow-black/50 rounded-3xl p-6 sm:p-8 flex flex-col gap-6 relative z-10">
                 <div className="flex items-center justify-between">
                     <Link to="/login" className="text-white/50 hover:text-white transition-colors">
                         <ArrowLeft size={24} />

@@ -160,7 +160,7 @@ export const PublicView: React.FC = () => {
         </div>
 
         {/* Links List */}
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-4 sm:space-y-6">
           {data.links.map((link, index) => (
             <a
               key={link.id}
@@ -168,7 +168,7 @@ export const PublicView: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={`
-                group relative w-full p-4 rounded-xl flex items-center justify-center transition-all duration-300
+                group relative w-full p-4 min-h-[56px] rounded-xl flex items-center justify-center transition-all duration-300
                 ${theme.buttonStyle}
                 hover:scale-[1.02] active:scale-[0.98]
               `}

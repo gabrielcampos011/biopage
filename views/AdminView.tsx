@@ -203,18 +203,18 @@ export const AdminView: React.FC = () => {
                 href={`/${profileData.username}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-sm font-medium border border-white/10"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-sm font-medium border border-white/10"
               >
                 <Share2 size={16} />
-                Ver página
+                <span className="hidden sm:inline">Ver página</span>
               </a>
             ) : (
               <button
                 onClick={() => document.getElementById('username-input')?.focus()}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-colors text-sm font-medium border border-indigo-500/20 animate-pulse"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-colors text-sm font-medium border border-indigo-500/20 animate-pulse"
               >
                 <Plus size={16} />
-                Criar seu Link
+                <span className="hidden sm:inline">Criar seu Link</span>
               </button>
             )}
             <button
@@ -228,11 +228,11 @@ export const AdminView: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto p-6 space-y-8 animate-fade-in">
-        <div className="grid md:grid-cols-12 gap-8">
+      <main className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 animate-fade-in">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8">
 
           {/* Left Column - Profile & Theme */}
-          <div className="md:col-span-5 space-y-8">
+          <div className="md:col-span-5 space-y-6 sm:space-y-8 order-1">
 
             {/* Profile Card */}
             <div className="bg-gray-800/50 border border-white/5 border-l-4 border-l-indigo-500 rounded-2xl p-6 shadow-xl">
@@ -312,7 +312,7 @@ export const AdminView: React.FC = () => {
           </div>
 
           {/* Right Column - Links */}
-          <div className="md:col-span-7">
+          <div className="md:col-span-7 order-2">
             <div className="bg-gray-800/50 border border-white/5 border-l-4 border-l-pink-500 rounded-2xl p-6 shadow-xl h-full">
               <h3 className="text-lg font-bold mb-6 flex items-center gap-2 text-white">
                 <LinkIcon size={20} className="text-pink-400" />
@@ -382,14 +382,15 @@ export const AdminView: React.FC = () => {
       </main>
 
       {/* Floating Save Button */}
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50">
         <button
           onClick={saveChanges}
           disabled={saving}
-          className="flex items-center gap-2 px-6 py-3 rounded-full font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-indigo-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+          className="flex items-center gap-2 px-6 py-4 sm:py-3 rounded-full font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-indigo-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
         >
           {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-          {saving ? 'Salvando...' : 'Salvar Alterações'}
+          <span className="hidden sm:inline">{saving ? 'Salvando...' : 'Salvar Alterações'}</span>
+          <span className="sm:hidden">{saving ? '...' : 'Salvar'}</span>
         </button>
       </div>
     </div>
