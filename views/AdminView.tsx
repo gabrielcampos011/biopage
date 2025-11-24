@@ -159,6 +159,14 @@ export const AdminView: React.FC = () => {
         if (linksError) throw linksError;
       }
 
+      // Update local state to reflect changes immediately
+      setProfileData({
+        username: formData.profile.username,
+        role: formData.profile.role,
+        avatarUrl: formData.profile.avatarUrl,
+        theme: selectedTheme
+      });
+
       alert('Alterações salvas com sucesso!');
     } catch (error: any) {
       alert('Erro ao salvar: ' + error.message);
@@ -190,7 +198,7 @@ export const AdminView: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            {profileData?.username && (
+            {profileData?.username ? (
               <a
                 href={`/${profileData.username}`}
                 target="_blank"
@@ -200,6 +208,14 @@ export const AdminView: React.FC = () => {
                 <Share2 size={16} />
                 Ver página
               </a>
+            ) : (
+              <button
+                onClick={() => document.getElementById('username-input')?.focus()}
+                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-colors text-sm font-medium border border-indigo-500/20 animate-pulse"
+              >
+                <Plus size={16} />
+                Criar seu Link
+              </button>
             )}
             <button
               onClick={handleSignOut}
@@ -245,6 +261,7 @@ export const AdminView: React.FC = () => {
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm">biopage.app/</span>
                     <Input
+                      id="username-input"
                       value={formData.profile.username}
                       onChange={(e) => setFormData({ ...formData, profile: { ...formData.profile, username: e.target.value } })}
                       placeholder="seu-usuario"
@@ -277,8 +294,8 @@ export const AdminView: React.FC = () => {
                     key={themeKey}
                     onClick={() => setSelectedTheme(themeKey)}
                     className={`relative p-3 rounded-xl border-2 transition-all duration-200 text-left group overflow-hidden ${selectedTheme === themeKey
-                        ? 'border-purple-500 bg-purple-500/10'
-                        : 'border-white/5 hover:border-white/20 bg-gray-900/50'
+                      ? 'border-purple-500 bg-purple-500/10'
+                      : 'border-white/5 hover:border-white/20 bg-gray-900/50'
                       }`}
                   >
                     <div className={`w-full h-16 rounded-lg mb-3 ${themes[themeKey].pageBackground} bg-cover bg-center shadow-inner border border-white/5`}></div>
