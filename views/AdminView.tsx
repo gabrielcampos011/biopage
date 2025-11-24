@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { GlassButton } from '../components/GlassButton';
 import { Input } from '../components/Input';
-import { GripVertical, Plus, Trash2, Save, LogOut, Loader2, ExternalLink } from 'lucide-react';
-import { LinkItem, AppState, ProfileData } from '../App';
-import { useAuth } from '../contexts/AuthContext';
+import { AvatarUpload } from '../components/AvatarUpload';
+import { GripVertical, Plus, Trash2, Save, LogOut, Loader2, ExternalLink, LayoutDashboard, Link as LinkIcon } from 'lucide-react';
+import { LinkItem, AppState, ProfileData } from '../types';
+import { useAuth } from '../src/contexts/AuthContext';
 import { supabase } from '../src/lib/supabaseClient';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +19,7 @@ export const AdminView: React.FC = () => {
       avatarUrl: ''
     },
     links: [],
-    socials: [] // TODO: Implement socials editing
+    socials: []
   });
 
   useEffect(() => {
@@ -89,11 +90,6 @@ export const AdminView: React.FC = () => {
   };
 
   const addNewLink = () => {
-    // For new links, we use a temporary ID until saved to DB, 
-    // or we could insert immediately. Let's insert immediately for simplicity or handle in save.
-    // Here we'll just add to state with a temp ID, but 'save' will handle upsert.
-    // Actually, for simplicity with Supabase upsert, it's better if we treat them as new.
-    // But to keep UI responsive, we add to state.
     const newLink: LinkItem = {
       id: `temp-${Date.now()}`,
       title: 'Novo Link',
@@ -105,7 +101,6 @@ export const AdminView: React.FC = () => {
   };
 
   const removeLink = async (id: string) => {
-    // If it's a temp link, just remove from state
     if (id.startsWith('temp-')) {
       setFormData(prev => ({
         ...prev,
@@ -114,7 +109,6 @@ export const AdminView: React.FC = () => {
       return;
     }
 
-    // If it's a real link, delete from DB
     try {
       const { error } = await supabase
         .from('links')
@@ -151,7 +145,6 @@ export const AdminView: React.FC = () => {
       if (profileError) throw profileError;
 
       // 2. Upsert Links
-      // We need to separate new links (temp-id) from existing ones
       const linksToUpsert = formData.links.map(link => {
         const linkData = {
           user_id: user?.id,
@@ -160,7 +153,6 @@ export const AdminView: React.FC = () => {
           visible: link.visible
         };
 
-        // If it has a real UUID, include it. If it's temp, let Supabase generate ID.
         if (!link.id.startsWith('temp-')) {
           return { ...linkData, id: link.id };
         }
@@ -174,7 +166,6 @@ export const AdminView: React.FC = () => {
 
       if (linksError) throw linksError;
 
-      // Update state with saved links (to get real IDs for new links)
       if (savedLinks) {
         setFormData(prev => ({
           ...prev,
@@ -201,121 +192,145 @@ export const AdminView: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="flex h-full items-center justify-center text-white"><Loader2 className="animate-spin" /></div>;
+    return <div className="flex h-screen w-full items-center justify-center text-white"><Loader2 className="animate-spin" size={32} /></div>;
   }
 
   return (
-    <div className="flex h-full w-full flex-col max-w-[800px] mx-auto p-4 md:p-8 overflow-y-auto">
+    <div className="flex h-full w-full flex-col max-w-4xl mx-auto p-4 md:p-8 overflow-y-auto">
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-8 glass-card p-4 rounded-2xl">
-        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-          <span className="bg-white/20 p-2 rounded-lg"><GripVertical size={20} /></span>
-          Editor
+      <div className="flex items-center justify-between mb-8 glass p-6 rounded-2xl animate-fade-in-up">
+        <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+          <div className="bg-primary/20 p-2 rounded-xl text-primary">
+            <LayoutDashboard size={24} />
+          </div>
+          <span className="text-gradient">Painel de Controle</span>
         </h2>
         <div className="flex items-center gap-4">
           {formData.profile.username && (
             <Link
               to={`/${formData.profile.username}`}
               target="_blank"
-              className="text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm font-semibold transition-colors"
+              className="glass-button-secondary flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-xl"
             >
               <ExternalLink size={16} /> Ver Página
             </Link>
           )}
           <button
             onClick={handleLogout}
-            className="text-white/70 hover:text-white flex items-center gap-2 text-sm font-semibold transition-colors"
+            className="text-white/60 hover:text-red-400 flex items-center gap-2 text-sm font-semibold transition-colors px-2"
           >
-            <LogOut size={16} /> Sair
+            <LogOut size={18} />
           </button>
         </div>
       </div>
 
-      {/* Profile Section */}
-      <div className="glass-card p-6 rounded-3xl mb-6">
-        <h3 className="text-white text-xl font-bold mb-4">Detalhes do Perfil</h3>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col md:flex-row gap-6 items-start">
-            <div className="flex-shrink-0">
-              <div
-                className="w-24 h-24 rounded-full bg-cover bg-center border-4 border-white/30 shadow-inner bg-gray-800"
-                style={{ backgroundImage: formData.profile.avatarUrl ? `url("${formData.profile.avatarUrl}")` : undefined }}
+      <div className="grid md:grid-cols-12 gap-6">
+
+        {/* Profile Section */}
+        <div className="md:col-span-4 space-y-6">
+          <div className="glass p-6 rounded-3xl animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <h3 className="text-white text-lg font-bold mb-6 flex items-center gap-2">
+              <span className="w-1 h-6 bg-accent rounded-full"></span>
+              Perfil
+            </h3>
+
+            <div className="flex flex-col items-center gap-6">
+              <AvatarUpload
+                url={formData.profile.avatarUrl}
+                onUpload={(url) => handleProfileChange('avatarUrl', url)}
+                userId={user?.id || ''}
               />
+
+              <div className="w-full space-y-4">
+                <Input
+                  label="Nome de Usuário"
+                  value={formData.profile.username}
+                  onChange={(e) => handleProfileChange('username', e.target.value)}
+                  placeholder="ex: joaosilva"
+                />
+                <Input
+                  label="Bio / Cargo"
+                  value={formData.profile.role}
+                  onChange={(e) => handleProfileChange('role', e.target.value)}
+                  placeholder="Designer & Developer"
+                />
+              </div>
             </div>
-            <div className="flex-grow w-full space-y-4">
-              <Input
-                label="Nome de Usuário (URL)"
-                value={formData.profile.username}
-                onChange={(e) => handleProfileChange('username', e.target.value)}
-                placeholder="ex: joaosilva"
-              />
-              <Input
-                label="Função / Bio"
-                value={formData.profile.role}
-                onChange={(e) => handleProfileChange('role', e.target.value)}
-              />
-              <Input
-                label="URL do Avatar"
-                value={formData.profile.avatarUrl}
-                onChange={(e) => handleProfileChange('avatarUrl', e.target.value)}
-              />
+          </div>
+        </div>
+
+        {/* Links Section */}
+        <div className="md:col-span-8">
+          <div className="glass p-6 rounded-3xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-white text-lg font-bold flex items-center gap-2">
+                <span className="w-1 h-6 bg-secondary rounded-full"></span>
+                Seus Links
+              </h3>
+              <button
+                onClick={addNewLink}
+                className="bg-white/10 hover:bg-white/20 text-white rounded-xl p-2 transition-all active:scale-95 border border-white/10"
+              >
+                <Plus size={20} />
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {formData.links.map((link, index) => (
+                <div key={link.id} className="bg-black/20 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-start md:items-center border border-white/5 group hover:border-white/10 transition-colors">
+                  <div className="p-3 bg-white/5 rounded-xl text-white/40 cursor-grab active:cursor-grabbing">
+                    <GripVertical size={20} />
+                  </div>
+
+                  <div className="flex-grow w-full space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+                    <Input
+                      placeholder="Título do Botão"
+                      value={link.title}
+                      onChange={(e) => handleLinkChange(link.id, 'title', e.target.value)}
+                      className="bg-transparent border-none focus:ring-0 p-0 text-lg font-medium placeholder:text-white/20"
+                    />
+                    <div className="flex items-center gap-2 bg-black/20 rounded-lg px-3 py-2 border border-white/5 focus-within:border-primary/50 transition-colors">
+                      <LinkIcon size={14} className="text-white/30 flex-shrink-0" />
+                      <input
+                        placeholder="https://..."
+                        value={link.url}
+                        onChange={(e) => handleLinkChange(link.id, 'url', e.target.value)}
+                        className="bg-transparent border-none outline-none text-sm text-white/80 w-full placeholder:text-white/20"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => removeLink(link.id)}
+                    className="p-2 rounded-lg text-white/20 hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              ))}
+
+              {formData.links.length === 0 && (
+                <div className="text-center text-white/30 py-12 border-2 border-dashed border-white/5 rounded-2xl">
+                  <p>Adicione links para começar a construir sua página.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Links Section */}
-      <div className="glass-card p-6 rounded-3xl mb-6">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-white text-xl font-bold">Links</h3>
-          <button
-            onClick={addNewLink}
-            className="bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-colors"
-          >
-            <Plus size={20} />
-          </button>
-        </div>
-
-        <div className="flex flex-col gap-4">
-          {formData.links.map((link) => (
-            <div key={link.id} className="bg-black/20 p-4 rounded-xl flex flex-col md:flex-row gap-4 items-start md:items-end border border-white/5 animate-fade-in">
-              <div className="flex-grow w-full md:w-auto space-y-3">
-                <Input
-                  placeholder="Título do Botão"
-                  value={link.title}
-                  onChange={(e) => handleLinkChange(link.id, 'title', e.target.value)}
-                />
-                <Input
-                  placeholder="URL (https://...)"
-                  value={link.url}
-                  onChange={(e) => handleLinkChange(link.id, 'url', e.target.value)}
-                />
-              </div>
-              <div className="flex items-center gap-2 w-full md:w-auto justify-end">
-                <button
-                  onClick={() => removeLink(link.id)}
-                  className="p-3 rounded-xl bg-red-500/20 text-red-200 hover:bg-red-500/40 transition-colors"
-                >
-                  <Trash2 size={20} />
-                </button>
-              </div>
-            </div>
-          ))}
-          {formData.links.length === 0 && (
-            <div className="text-center text-white/40 py-8">
-              Nenhum link ainda. Adicione um acima!
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Floating Save Button */}
-      <div className="sticky bottom-4 z-50">
-        <GlassButton variant="primary" onClick={saveChanges} disabled={saving} className="shadow-xl shadow-black/20">
-          <span className="flex items-center gap-2">
-            {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-            {saving ? 'Salvando...' : 'Salvar Alterações'}
+      <div className="fixed bottom-8 right-8 z-50 animate-fade-in-up">
+        <GlassButton
+          variant="primary"
+          onClick={saveChanges}
+          disabled={saving}
+          className="shadow-2xl shadow-primary/20 !rounded-full !px-8 !py-4"
+        >
+          <span className="flex items-center gap-2 text-lg">
+            {saving ? <Loader2 className="animate-spin" size={24} /> : <Save size={24} />}
+            {saving ? 'Salvando...' : 'Salvar'}
           </span>
         </GlassButton>
       </div>
