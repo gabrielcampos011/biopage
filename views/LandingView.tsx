@@ -6,7 +6,7 @@ import { Sparkles, Share2, Shield, Zap, Globe, Palette } from 'lucide-react';
 export const LandingView: React.FC = () => {
     return (
         <div className="min-h-screen w-full flex flex-col relative overflow-hidden">
-            <div className="noise"></div>
+            <div className="bg-radial-dark"></div>
 
             {/* Background Blobs */}
             <div className="fixed top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
@@ -27,9 +27,9 @@ export const LandingView: React.FC = () => {
                         </button>
                     </Link>
                     <Link to="/register">
-                        <GlassButton variant="primary" className="!px-6 !py-2 !rounded-full">
+                        <button className="px-6 py-2 rounded-full font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:scale-105">
                             Começar Grátis
-                        </GlassButton>
+                        </button>
                     </Link>
                 </div>
             </nav>
@@ -45,9 +45,9 @@ export const LandingView: React.FC = () => {
                         Nova versão 2.0 disponível
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
+                    <h1 className="text-6xl md:text-8xl font-black text-white leading-tight tracking-tight">
                         Seu link único para <br />
-                        <span className="text-gradient">tudo que importa.</span>
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">tudo que importa.</span>
                     </h1>
 
                     <p className="text-xl text-white/60 max-w-2xl mx-auto leading-relaxed">
@@ -56,14 +56,14 @@ export const LandingView: React.FC = () => {
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
                         <Link to="/register">
-                            <GlassButton variant="primary" className="!text-lg !px-8 !py-4 shadow-xl shadow-primary/20 hover:shadow-primary/40">
+                            <button className="text-lg px-8 py-4 rounded-full font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-xl shadow-indigo-500/20 transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/40">
                                 Criar minha BioPage
-                            </GlassButton>
+                            </button>
                         </Link>
                         <Link to="/demo">
-                            <GlassButton className="!text-lg !px-8 !py-4">
+                            <button className="text-lg px-8 py-4 rounded-full font-medium bg-transparent border border-white/20 text-white hover:bg-white/5 transition-all duration-300">
                                 Ver Demonstração
-                            </GlassButton>
+                            </button>
                         </Link>
                     </div>
                 </div>
@@ -93,15 +93,17 @@ export const LandingView: React.FC = () => {
 
             {/* Footer */}
             <footer className="w-full p-8 text-center text-white/20 text-sm z-10 border-t border-white/5 mt-20">
-                <p>&copy; 2024 BioPage. Todos os direitos reservados.</p>
+                <p>
+                    &copy; 2025 BioPage. Todos os direitos reservados - <a href="http://instagram.com/gabriel.campos011" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Gabriel Campos</a>.
+                </p>
             </footer>
         </div>
     );
 };
 
 const FeatureCard: React.FC<{ icon: React.ReactNode, title: string, description: string, delay: string }> = ({ icon, title, description, delay }) => (
-    <div className="glass p-8 rounded-3xl hover:bg-white/15 transition-all duration-300 group animate-fade-in-up" style={{ animationDelay: delay }}>
-        <div className="bg-white/5 w-16 h-16 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/10">
+    <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-all duration-300 group animate-fade-in-up hover:-translate-y-1 flex flex-col items-center text-center" style={{ animationDelay: delay }}>
+        <div className="bg-white/5 w-16 h-16 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/10 shadow-lg">
             {icon}
         </div>
         <h3 className="text-xl font-bold text-white mb-3">{title}</h3>

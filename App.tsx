@@ -7,6 +7,7 @@ import { RegisterView } from './views/RegisterView';
 import { ForgotPasswordView } from './views/ForgotPasswordView';
 import { UpdatePasswordView } from './views/UpdatePasswordView';
 import { LandingView } from './views/LandingView';
+import { DemoView } from './views/DemoView';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
 
@@ -36,6 +37,7 @@ const AppContent: React.FC = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingView />} />
+        <Route path="/demo" element={<DemoView />} />
         <Route path="/login" element={<LoginView />} />
         <Route path="/register" element={<RegisterView />} />
         <Route path="/forgot-password" element={<ForgotPasswordView />} />
